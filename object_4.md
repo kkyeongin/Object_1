@@ -19,6 +19,9 @@
     - 여러개의 case조건을 만듬으로서 `context 에러`가 생긴다.
   - `generic을 통해 이문제를 해결`
 
+
+### 도메인 구조
+
 ```txt
                                 |---->FrontEnd
                                 |
@@ -56,7 +59,8 @@ public class FrontEnd implements Programmer{
             Client pb = (Client)paper;
              /**
             여기서 Paper가 Client로 downcasting하고 있으며, LSP를 위반하고 있다. and OCP도 위반
-            class BackEnd인 경우:
+            
+            BackEnd class인 경우:
             if (paper instanceof ServerClient){
                 ServerClient pb = (ServerClient)paper;
             }
@@ -105,7 +109,9 @@ public class BackEnd implements Programmer{
 }
 ```
 
-할리우드 원칙을 잘 지켰다 생각하지만, Client는 setData 메소드를 만들어야 하고, FontEnd 클래스에서도 똑같은 같은 코드가 들어간다.--> Dry 원칙 위배
+할리우드 원칙을 잘 지켰다 생각하지만, Client는 setData 메소드를 만들어야 하고, FontEnd 클래스에서도 똑같은 같은 코드가 들어간다.
+
+--> Dry 원칙 위배
 
 ```java
 public abstract class Programmer{
@@ -131,7 +137,7 @@ public class Client implements Paper{
     }
     @Override
     public void setData(Programmer programmer){
-        if (programmer instanceof FrontEnd){ //DownCasing
+        if (programmer instanceof FrontEnd){ //DownCasting
             ...
         }
     }
@@ -149,7 +155,7 @@ public class SeverClient implements Paper{
     }
     @Override
     public void setData(Programmer programmer){
-        if (programmer instanceof FrontEnd){ //DownCasing
+        if (programmer instanceof FrontEnd){ //DownCasting
             ...
         }else if(programmer instanceof Backend){
             ...
@@ -164,13 +170,13 @@ public class SeverClient implements Paper{
 ```
 
 다운케스팅을 할때도 SeverClient가 지는 책임이 더 무겁다.
-1:N 로직이 되어 N개의 case를 일반화된 처리해 줘야하기 때문이다.
+1:N 로직이 되어 N개의 case를 일반화된 처리해 줘야 하기 때문이다.
 이로서 문제가 더 심해졌다.
 
 게다가 Client 클래스에서는 1개의 Case만 처리했다.
-Class의 형태를 기준으로 코드를 짰다고 볼 수도 있다. 조심해야한다.
+Class의 형태를 기준으로 코드를 짰다고 볼 수도 있다. 조심 해야 한다.
 
-`결국에는, 문제는 이전 됬을뿐 근본적으로 문제는 해소되지 않았다.`
+`결국에는, 문제는 이전 됐을 뿐 근본적으로 문제는 해소되지 않았다.`
 
 ### Generic
 
@@ -179,7 +185,7 @@ Class의 형태를 기준으로 코드를 짰다고 볼 수도 있다. 조심해
 if문과 차이점은 형으로 결정된다.
 `내 코드(java)에 instanceof(downcasting)가 있다면 쓰면 된다!`
 
-Runtime, Context 에러를 compile time Error로 문제를 옮길 수 있다.
+Runtime, Context 에러를 Compile Time Error의 문제를 옮길 수 있다.
 
 ```java
 public interface Paper<T extends Programmer>{
@@ -229,7 +235,9 @@ public class SeverClient implements Paper<FrontEnd? or BackEnd?>{
 
 ```
 
-이렇게 만들어야 하나? 1:N(paper:programmer) 구조여서 N을 구상하지 말고, 1에서 구상하는게 좋다 라는 결론을 얻었다.
+이렇게 만들어야 하나? 1:N(paper:programmer) 구조여서 N을 구상하지 말고, 1을 구상하는게 좋다 라는 결론을 얻었다.
+
+다시 Programmer가 책임을 지는 걸로 돌아가자!
 
 ## OCP와 제네릭을 통한 해결(Hollywood 원칙, Tell, Don't Ask)
 
@@ -251,7 +259,7 @@ public class Client implements Paper{
 clone interface:
 jvm native machine에 따라서 [serialize]를 구현하는걸 jvm 코드에 내장하기 위해서 clone은 marker interface다.
 
-그럼 다시 롤백
+그럼 다시 롤백해서,
 
 ```java
 public abstract class Programmer<T extends Paper>{ //변경
@@ -280,10 +288,12 @@ public abstract class BackEnd<T extends Paper> extends Programmer<T>{  // 수많
 }
 ```
 
-generic을 쓰면 추상화가 깨지는게 아니라 제약이 걸린다. <T extends Paper> 씀으로서 if의 case만큼 클래스를 만들어야 한다. `형으로 풀어야 한다.`
+generic을 쓰면 추상화가 깨지는게 아니라 제약이 걸린다. <T extends Paper> 씀으로서 if의 case만큼 클래스를 만들어야 한다. 
+  
+`형으로 풀어야 한다.`
 
 BackEnd 클래스가 추상화 클래스이므로 setData `더 클라이언트 쪽으로 밀어냈다`
-아까는 밀어내지 않고 협력 관계에 있는 (같은 책임 레벨을 갖는)도메인 레이어에 떠넘겼다.
+아까는 밀어내지 않고 협력 관계에 있는 (같은 책임 레벨을 갖는)도메인 레이어에 떠 넘겼다.
 
 `if를 제거하기 위해서는 같은 클라이언트 방향으로 밀어내야한다.`
 
@@ -329,7 +339,7 @@ public class Director{
 디렉터가 `N`개의 프로젝트를 가지고 있어 디렉터 추상화는 불가능 (1(디렉터):N(페이퍼))
 그래서 의존성 역전을 시켜야함.
 
-페이퍼(가벼운쪽으로) 가서 서비스를 제공하면 되겠다.
+--> Paper(가벼운쪽으로)로 가서 서비스를 제공하면 되겠다.
 
 ### 디렉터의 코드의 문제점 & 해결
 
@@ -409,7 +419,8 @@ public class Main{
 setProgrammer(frontEnd);
 ```
 
-이 인터페이스는 ClientPaper가 외부에 자기의 속성을 갱신할수 있는 메세지를 허용하려고 만든거지만, 이제는 ClientPaper기 형으로 확장했지 때분에 외부용 메세지가 필요가 없다!
+이 인터페이스는 ClientPaper가 외부에 자기의 속성을 갱신할 수 있는 메세지를 허용하려고 만든거지만, 
+이제는 ClientPaper기 형으로 확장했지 때분에 외부용 메세지가 필요가 없다!
 
 `보안성이 더 높아진다.` 클래스의 은닉성이 더 높아진다.
 
@@ -447,9 +458,16 @@ public class Main{
 정말 객체 설계를 잘했다면, public set,get 메소드가 외부에 노출될 일이 없다. 이미 설계가 잘 못 된걸 수도..
 
 `관계가(1:N) 더 가볍느냐에 따라 구상을 거기로 넘겨야 한다.`
+
+N쪽으로 가야 구성할게 1개로 가볍다.
 만약 관계가 바뀌면 코드 배치를 달리 해야 한다.
 
 반복 연습을 통해 코드 배치를 학습 해야 한다.
+
+- if & down casting(LSP & OCP 위배) 처리:
+1. 가장 큰 클라이언트로(Main) 쭉 밀어야함.
+2. generic을 통해 형을 만듬(추상화), 책임을 구상클래스로 위임
+3. 형 생성시 속성을 외부에 할당(set) 받지 않고 자기가 할당, 한층 더 은닉성이 올라감.
 
 ## 참조
 
