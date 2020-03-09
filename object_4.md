@@ -248,7 +248,7 @@ public class Client implements Paper{
 
 ```
 
-[clone interface]:
+clone interface:
 jvm native machine에 따라서 [serialize]를 구현하는걸 jvm 코드에 내장하기 위해서 clone은 marker interface다.
 
 그럼 다시 롤백
@@ -453,12 +453,12 @@ public class Main{
 
 ## 참조
 
-[clone interface]:
+[has a 관계]:https://ddaisy.tistory.com/entry/UML-Class-Diagram-RelationshipsDependency-Aggregation-Composition-Inheritance-Realization
 
-[has a 관계]:
+[serialize]:https://woowabros.github.io/experience/2017/10/17/java-serialize.html
 
-[serialize]:
+[abstract]:https://opentutorials.org/course/1223/6062
 
-[abstract]:
+[DI]:https://www.tutorialsteacher.com/ioc/introduction
 
-[DI]:
+[JAVA-pinpoint](https://www.javatpoint.com/java-string)
