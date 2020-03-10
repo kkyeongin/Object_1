@@ -1,8 +1,54 @@
-# Object(2) & Resposibility Driven
+# Object(2) & Type
+
+Data Type에 대한 얘기가 아니라, 객체지향에서 Type은 `형`을 의미한다.
+
+## Type
+
+- Role : `형을 통해 역할을 묘사`함
+
+- Resonsibility : 형을 통해 로직을 표현함
+
+- Message : 형을 통해 메세지를 공유함
+  - String, int은 형이아니다. 값(불변, 복제 후 리턴)이다.
+  - 우리가 보는 형은 참조 타입을 의미한다.
+
+- Protocol : 객체간 계약을 형을 통해 공유함
+
+### JVM 도용 가능한 Type : static, enum, class
+
+- static: 단 한개 인스턴스 존재
+singleton 대신사용
+언어적인 static 초기화, 호출, 작동이 전부 쓰레드 안전이 아니다.
+`JVM이 쓰레드 안전을 보장하지 않는다.`
+
+동시성 문제에서, static context 버리고 instance context를 사용해야 한다.
+
+- enum: 제한된 수의 인스턴스 존재(제너릭에 사용불가)
+enum은 인스턴스는 제일먼저 생성, `생성 시점의 동시성 안전 문제는 해결된다.`
+일반적인 인스턴스가 확정적이면 enum instance를 만들면 된다.
+
+단점은 제너릭을 사용할 수 없다.형을 대체하거, 유연성은 떨어진다.
+
+- class : 무제한의 인스턴스 존재
+utility function(사용X) vs method(사용) :  this의 유무에 따라 다름
+
+## Condition
+
+1. 조건 분기는 결코 제거할 수 없다.
+2. 조건 분기에 대한 전략은 두가지 뿐
+   1. 내부에서 응집성 있게 모아두는 방식
+      - 장:모든 경우의 수가 한눈에 파악가능
+      - 단:분기가 늘어날 때마다 코드 변경
+   2. 위부에 분기를 위임하고 경우의 수 만큼 처리기를 만드는 방식
+      - 장: 분기가 늘어날 때마다 처리기만 추가하면 된다.
+      - 단: 모든 경우의 수를 파악할 수 없다.
+
+## Resposibility Driven
 
 > 객체 만이 역할을 수행할 수 있고 Type(not Value) 만이 책임을 수행 할 수 있다.
 
-- value = responsibility (책임이란건 가치 그 자체)
+### value = responsibility (책임이란건 가치 그 자체)
+
 - 책임(working 함수)을 작은 책임으로 분할
 - 여러 '책임'의 공통점을 모아 추상화 해놓는 것을 '역할(interface)'이라 할 수 있다
   - 연역적인 방법을 통해 역할을 만들고 귀납적인 방법을 통해 다른 사례를 더 만들 수 있음
@@ -253,3 +299,7 @@ void main()
     */
 }
 ```
+
+## 참고
+
+[Serializable & Clonable](https://www.geeksforgeeks.org/marker-interface-java/)

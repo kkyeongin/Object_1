@@ -236,8 +236,14 @@
 
 [adapter 패턴]:https://yaboong.github.io/design-pattern/2018/10/15/adapter-pattern/
 
-[template method 패턴]:https://gmlwjd9405.github.io/2018/07/13/template-method-pattern.html
+[template method 패턴]:https://www.baeldung.com/java-template-method-pattern
 
-[strategy pattern]:https://gmlwjd9405.github.io/2018/07/06/strategy-pattern.html
+[strategy pattern]:https://dzone.com/articles/strategy-pattern-using-lambda
 
 [AOP]:https://jojoldu.tistory.com/71?category=635883
+
+[JAVA8 stract vs interface](https://yaboong.github.io/java/2018/09/25/interface-vs-abstract-in-java8/)
+
+[Strategy Design Pattern in Java 8](https://www.baeldung.com/java-strategy-pattern)
+
+[AOP](https://www.javatpoint.com/spring-aop-tutorial)
