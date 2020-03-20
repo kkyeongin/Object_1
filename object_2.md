@@ -6,7 +6,7 @@ Data Type에 대한 얘기가 아니라, 객체지향에서 Type은 `형`을 의
 
 - Role : `형을 통해 역할을 묘사`함
 
-- Resonsibility : 형을 통해 로직을 표현함
+- Responsibility : 형을 통해 로직을 표현함
 
 - Message : 형을 통해 메세지를 공유함
   - String, int은 형이아니다. 값(불변, 복제 후 리턴)이다.
@@ -43,7 +43,7 @@ utility function(사용X) vs method(사용) :  this의 유무에 따라 다름
       - 장: 분기가 늘어날 때마다 처리기만 추가하면 된다.
       - 단: 모든 경우의 수를 파악할 수 없다.
 
-## Resposibility Driven
+## Responsibility Driven
 
 > 객체 만이 역할을 수행할 수 있고 Type(not Value) 만이 책임을 수행 할 수 있다.
 

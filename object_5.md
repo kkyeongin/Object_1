@@ -1,15 +1,25 @@
 # Object(5) & 분해(decomposition)
 
-composition: 하나 하나 가치가 있음
-assemble: 조립을 통해 가치가 생성
+- Composition:
+  - 독립되어 있는 부속을 모아 하나의 결과물로 만듬.
+  - 속성 변화가 없음.(하나 하나 가치가 있음)
+  - `격리 & 독립이 잘 돼 있음.`
+- Assemble: 조립을 통해 가치가 생성(ex. 레고)
+  - 분해하면 다망가짐.
 
-도메인을 분해해 composition을 만들고 싶다라는게 이 챕터의 핵심이다.
+도메인을 분해해 Composit화 된 Composition을 만들고 싶다라는게 이 챕터의 핵심이다.
 
 분해를 안하면? 복잡성 폭팔하기 때문에 필요하다.
 
-## Functional decomposition(함수로의 분해)
+복작한 내용을 분리하는 법을 3가지를 다룬다.
 
-### Flow chart 기볍
+## Functional Decomposition(함수로의 분해)
+
+[1. Flow chart 기법](#Flow-chart-기법)
+[2. Abstract Data Type](#Abstract-Data-Type)
+[3. Object Oriented](#Object-Oriented)
+
+### Flow chart 기법
 
 사람의 뇌가 flow 처리를 선호하기 때문에(todo,...) 보통 사용
 
